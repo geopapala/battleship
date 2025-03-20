@@ -106,9 +106,14 @@ public class ShipBoard {
         System.out.println("   -----------------------");
     }
 
+    public int[][] getBoard() {
+        
+        return this.board;
+    }
     
     public static void main(String[] args) {
         ShipBoard board = new ShipBoard();
         board.enterAllShipsManually();
     }
+
 }
