@@ -7,7 +7,7 @@ public class ShipBoard {
     private int N = Constants.BOARD_SIZE;
     private int[] ships = {5, 4, 3, 3, 2};
     private int[][] board = new int[N][N];
-    private boolean[][] strikePositions = new boolean[N][N];
+    private boolean[][] strickenPositions = new boolean[N][N];
     private boolean lastStrikeSankShip = false;
     
     ShipBoardHelper helper = new ShipBoardHelper();
@@ -20,8 +20,8 @@ public class ShipBoard {
         helper.printShipPlacementInstructions();
         printBoard();
         
-        for(int i = 0; i < ships.length; i++) {
-            enterShipManually(i, scanner);
+        for(int shipId = 1; shipId <= ships.length; shipId++) {
+            enterShipManually(shipId, scanner);
         }
         
         scanner.close();
@@ -32,11 +32,12 @@ public class ShipBoard {
         int startingRow;
         int startingColumn;
         char direction;
-        int shipSize = ships[id];
+        String shipType = helper.resolveShipType(id);
+        int shipSize = ships[id - 1];
         
         System.out.println("--------------------------------------------------------------------------------");
         System.out.println("Give position and direction of "
-                + helper.resolveShipType(shipSize, id) + " (size " + shipSize + "):");
+                + shipType + " (size " + shipSize + "):");
         
         while(true) {
             
@@ -59,7 +60,7 @@ public class ShipBoard {
                     continue;
                 }
                 
-                helper.placeShip(startingColumn, startingRow, direction, shipSize, board);
+                helper.placeShip(startingColumn, startingRow, direction, id, shipSize, board);
                 
                 break;
             }
@@ -72,18 +73,45 @@ public class ShipBoard {
         printBoard();
     }
     
-    public void getStrike(int x, int y) {
+    public boolean getStrike(int row, int column) {
         
+        lastStrikeSankShip = false; //TODO Review 
+        
+        //TODO Review if that check is not needed here
+        if(strickenPositions[row][column] == true) {
+            return false;
+        }
+        
+        strickenPositions[row][column] = true;
+        
+        if(board[row][column] == 0) {
+            return false;
+        }
+        
+        int shipId = board[row][column];
+        int shipRemainingPositions = --ships[shipId - 1];
+        
+        if(shipRemainingPositions == 0) {
+            lastStrikeSankShip = true;
+            System.out.println("*** TO BE REVIEWED - Last strike have sank your "
+                    + helper.resolveShipType(shipId));
+        }
+        
+        return true;
     }
     
     public boolean allShipsSank() {
-        
-        return false;
+        for(int shipSize: ships) {
+            if(shipSize != 0) {
+                return false;
+            }
+        }
+        return true;
     }
     
     public boolean lastStrikeSankShip() {
         
-        return false;
+        return lastStrikeSankShip;
     }
     
     public void printBoard() {
@@ -96,9 +124,13 @@ public class ShipBoard {
             System.out.print((row + 1) + " | ");
             for (int col = 0; col < N; col++) {
                 if(board[row][col] == 0) {
-                    System.out.print("~ ");
+                    System.out.print(strickenPositions[row][col] == true 
+                                     ? "o " 
+                                     : "~ ");
                 } else {
-                    System.out.print(board[row][col] + " ");
+                    System.out.print(strickenPositions[row][col] == true 
+                                     ? "* " 
+                                     : helper.resolveShipTypeInitialLetter(board[row][col]) + " ");
                 }
             }
             System.out.println("|");
@@ -111,9 +143,16 @@ public class ShipBoard {
         return this.board;
     }
     
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         ShipBoard board = new ShipBoard();
         board.enterAllShipsManually();
-    }
+        
+        for(int i = 0; i < 10; i++) {
+            for(int j = 0; j < 10; j++) {
+                System.out.print(board.strickenPositions[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }*/
 
 }

@@ -29,20 +29,27 @@ public class ShipBoardHelper {
         System.out.println("The board is a 10x10 grid like the one below where the symbol '~' means water");
     }
     
-    public String resolveShipType(int size, int id) {
+    public String resolveShipType(int id) {
         
-        switch(size) {
-        case 5:
+        switch(id) {
+        case 1:
             return "Aircraft Carrier";
-        case 4:
+        case 2:
             return "Battleship";
         case 3:
-            return (id == 2) ? "Cruiser" : "Submarine";
-        case 2:
+            return "Cruiser";
+        case 4:
+            return "Submarine";
+        case 5:
             return "Destroyer";
         default:
-            return "Check ship size. There is no such a ship";
+            return "Unknown";
         }
+    }
+    
+    public char resolveShipTypeInitialLetter(int id) {
+        
+        return resolveShipType(id).charAt(0);
     }
     
     public int mapLetterToColumnIndex(char columnLetter) {
@@ -101,18 +108,19 @@ public class ShipBoardHelper {
     public void placeShip(int startingColumn, 
                           int startingRow, 
                           char direction, 
+                          int shipId,
                           int shipSize, 
                           int[][] board) {
         
         if(direction == 'H') {
             for(int col = startingColumn; col < startingColumn + shipSize; col++) {
-                board[startingRow][col] = shipSize;
+                board[startingRow][col] = shipId;
             }
         }
             
         if(direction == 'V') {
             for(int row = startingRow; row < startingRow + shipSize; row++) {
-                board[row][startingColumn] = shipSize;
+                board[row][startingColumn] = shipId;
             }
         }
     }
