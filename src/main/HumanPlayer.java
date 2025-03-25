@@ -20,8 +20,7 @@ public class HumanPlayer {
         Scanner scanner = new Scanner(System.in);
         int [] nextStrikePosition = new int[2]; // row, column
         
-        System.out.println("--------------------------------------------------------------------------------");
-        System.out.println("Captain " + name + " enter your next strike position formatted as [A-J] [1-10]:");
+        System.out.printf(Messages.NEXT_STRIKE_POSITION, name);
         
         while (true) {
             
@@ -32,8 +31,8 @@ public class HumanPlayer {
                 int column = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
                 int row = Integer.parseInt(inputParts[1]) - 1;
                 
-                if (strikeBoard.getBoard()[row][column] != 0) {
-                    System.out.println("You have entered an already stricken position. Try again!");
+                if (isPositionAlreadyStricken(row, column)) {
+                    System.out.println(Messages.ALREADY_STRICKEN_POSITION);
                     continue;
                 }
                 
@@ -43,7 +42,7 @@ public class HumanPlayer {
                 break;
             }
             
-            System.out.println("You have entered an invalid position. Try again!");
+            System.out.println(Messages.INVALID_STRIKE_POSITION);
         }
         
         return nextStrikePosition;
@@ -56,16 +55,20 @@ public class HumanPlayer {
             && input[1].matches("^(10|[1-9])$");
     }
     
+    private boolean isPositionAlreadyStricken(int row, int column) {
+        return strikeBoard.getBoard()[row][column] != 0;
+    }
+    
     public void update(int row, int column, boolean isHit) {
         
         strikeBoard.addStrike(row, column, isHit);
         
         if (isHit) {
-            System.out.println("Yes! You have hit a ship!");
+            System.out.println(Messages.HIT);
             return;
         }
         
-        System.out.println("No! You have missed the target!");
+        System.out.println(Messages.MISS);
     }
     
     public boolean getStrike(int row, int column) {

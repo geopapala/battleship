@@ -64,4 +64,17 @@ public class Messages {
     public static final String BATTLE_BEGIN = SEPARATOR
           + "Captains let the battleship begin!\n"
           + "\n";
+    
+    public static final String NEXT_STRIKE_POSITION = SEPARATOR
+          + "Captain %s enter your next strike position formatted as [A-J] [1-10]: ";
+    
+    public static final String ALREADY_STRICKEN_POSITION = 
+            "You have entered an already stricken position. Try again!\n";
+    
+    public static final String INVALID_STRIKE_POSITION = 
+            "You have entered an invalid position. Try again!\n";
+    
+    public static final String HIT = "Yes! You have hit a ship!\n";
+    
+    public static final String MISS = "No! You have missed the target!\n";
 }

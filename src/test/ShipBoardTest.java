@@ -11,13 +11,14 @@ import main.ShipBoard;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 
 class ShipBoardTest {
     
     private ShipBoard shipBoard;
+    private ByteArrayInputStream inputStream;
     private PrintStream originalOut;
+    private ByteArrayOutputStream outputStream;
     private String simulatedInput1 = "w 15 k\n" // Invalid input
                                    + "j 5 h\n"  // No fit input
                                    + "a 5 h\n"
@@ -35,16 +36,17 @@ class ShipBoardTest {
     @BeforeEach
     void setUp() {
         shipBoard = new ShipBoard();
+        redirectSystemOut();
     }
 
     @AfterEach
     void tearDown() {
+        restoreSystemOut();
         shipBoard = null;
     }
 
     @Test
     void testEnterAllShipsManually() {
-
         int[][] expectedBoard = {{0,0,0,0,0,0,0,0,0,0},
                                  {0,0,0,2,2,2,2,0,0,0},
                                  {0,0,0,0,0,0,0,0,0,0},
@@ -56,13 +58,9 @@ class ShipBoardTest {
                                  {5,0,0,0,0,0,0,0,0,0},
                                  {5,0,0,0,0,0,0,3,3,3}};
 
-        suppressSystemOut();
-        
-        InputStream inputStream = new ByteArrayInputStream(simulatedInput1.getBytes());
+        enterSimulatedInput(simulatedInput1);
         shipBoard.enterAllShipsManually(inputStream);
 
-        restoreSystemOut();
-        
         int[][] board = shipBoard.getBoard();
         
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
@@ -73,11 +71,8 @@ class ShipBoardTest {
     }
 
     @Test
-    void testGetStrike() {
-        
-        suppressSystemOut();
-        
-        InputStream inputStream = new ByteArrayInputStream(simulatedInput2.getBytes());
+    void testGetStrike() {        
+        enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
         
         int row1 = 0;
@@ -92,16 +87,13 @@ class ShipBoardTest {
         assertEquals(true, shipBoard.getStrike(row1, columnA));
         // Got strike on a ship in the same position 
         assertEquals(false, shipBoard.getStrike(row1, columnA));
-        
-        restoreSystemOut();
     }
 
     @Test
-    void testAllShipsSank() {
-        
+    void testAllShipsSank() {        
         assertEquals(false, shipBoard.allShipsSank());
-        suppressSystemOut();
-        InputStream inputStream = new ByteArrayInputStream(simulatedInput2.getBytes());
+        
+        enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
         
         for(int row = 0; row <= 1; row++) {
@@ -109,20 +101,17 @@ class ShipBoardTest {
                 shipBoard.getStrike(row, col);
             }
         }
-        restoreSystemOut();
         assertEquals(true, shipBoard.allShipsSank());
     }
 
     @Test
-    void testLastStrikeSankShip() {
-        
+    void testLastStrikeSankShip() {        
         int row1 = 0;
         int columnA = 0;
         int shipSize1 = 5;
-        suppressSystemOut();
-        InputStream inputStream = new ByteArrayInputStream(simulatedInput2.getBytes());
+
+        enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
-        
         shipBoard.getStrike(row1, columnA);
         
         assertEquals(false, shipBoard.lastStrikeSankShip());
@@ -130,13 +119,11 @@ class ShipBoardTest {
         for(int col = columnA; col < columnA + shipSize1; col++) {
             shipBoard.getStrike(row1, col);
         }
-        restoreSystemOut();
         assertEquals(true, shipBoard.lastStrikeSankShip());
     }
 
     @Test
-    void testPrintBoard() {
-        
+    void testPrintBoard() {        
         int row1 = 0;
         int row4 = 3;
         int columnA = 0;
@@ -155,31 +142,29 @@ class ShipBoardTest {
               + "10 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
               + "   -----------------------" + System.lineSeparator()
               + System.lineSeparator();
-        suppressSystemOut();
-        InputStream inputStream = new ByteArrayInputStream(simulatedInput2.getBytes());
-        shipBoard.enterAllShipsManually(inputStream);
         
+        enterSimulatedInput(simulatedInput2);
+        shipBoard.enterAllShipsManually(inputStream);
         shipBoard.getStrike(row1, columnA);
         shipBoard.getStrike(row4, columnA);
-        restoreSystemOut();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
+                
+        redirectSystemOut();
         
         shipBoard.printBoard();
-        
         assertEquals(expectedPrintOutput, outputStream.toString());
-        
-        System.setOut(System.out);
-
     }
     
-    private void suppressSystemOut() {
+    private void redirectSystemOut() {
         originalOut = System.out;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
     }
     
     private void restoreSystemOut() {
         System.setOut(new PrintStream(originalOut));
+    }
+    
+    private void enterSimulatedInput(String input) {
+        inputStream = new ByteArrayInputStream(input.getBytes());
     }
 }
