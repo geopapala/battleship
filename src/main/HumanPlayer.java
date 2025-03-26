@@ -1,5 +1,6 @@
 package main;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class HumanPlayer {
@@ -16,14 +17,14 @@ public class HumanPlayer {
         shipBoard.enterAllShipsManually(System.in);
     }
     
-    public int[] enterNextStrike() {
-        Scanner scanner = new Scanner(System.in);
-        int [] nextStrikePosition = new int[2]; // row, column
+    public int[] enterNextStrike(InputStream inputStream) {
+        Scanner scanner = new Scanner(inputStream);
+        int [] nextStrikePosition = new int[2]; // column, row
         
         System.out.printf(Messages.NEXT_STRIKE_POSITION, name);
+        System.out.println();
         
         while (true) {
-            
             String input = scanner.nextLine();
             String[] inputParts = input.split(" ");
             
@@ -31,37 +32,33 @@ public class HumanPlayer {
                 int column = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
                 int row = Integer.parseInt(inputParts[1]) - 1;
                 
-                if (isPositionAlreadyStricken(row, column)) {
+                if (isPositionAlreadyStricken(column, row)) {
                     System.out.println(Messages.ALREADY_STRICKEN_POSITION);
                     continue;
                 }
-                
-                nextStrikePosition[0] = row;
-                nextStrikePosition[1] = column;
+                nextStrikePosition[0] = column;
+                nextStrikePosition[1] = row;
                 
                 break;
             }
-            
             System.out.println(Messages.INVALID_STRIKE_POSITION);
         }
-        
         return nextStrikePosition;
     }
     
     private boolean isStrikePositionValid(String[] input) {
-        
         return input.length == 2
             && input[0].matches("[A-Ja-j]")
             && input[1].matches("^(10|[1-9])$");
     }
     
-    private boolean isPositionAlreadyStricken(int row, int column) {
+    private boolean isPositionAlreadyStricken(int column, int row) {
         return strikeBoard.getBoard()[row][column] != 0;
     }
     
-    public void update(int row, int column, boolean isHit) {
+    public void update(int column, int row, boolean isHit) {
         
-        strikeBoard.addStrike(row, column, isHit);
+        strikeBoard.addStrike(column, row, isHit);
         
         if (isHit) {
             System.out.println(Messages.HIT);
@@ -71,8 +68,8 @@ public class HumanPlayer {
         System.out.println(Messages.MISS);
     }
     
-    public boolean getStrike(int row, int column) {
-        return shipBoard.getStrike(row, column);
+    public boolean getStrike(int column, int row) {
+        return shipBoard.getStrike(column, row);
     }
     
     public boolean allShipsSank() {

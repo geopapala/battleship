@@ -66,7 +66,7 @@ public class Messages {
           + "\n";
     
     public static final String NEXT_STRIKE_POSITION = SEPARATOR
-          + "Captain %s enter your next strike position formatted as [A-J] [1-10]: ";
+          + "Captain %s enter your next strike position formatted as [A-J] [1-10]:";
     
     public static final String ALREADY_STRICKEN_POSITION = 
             "You have entered an already stricken position. Try again!\n";

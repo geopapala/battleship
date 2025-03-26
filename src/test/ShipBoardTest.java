@@ -75,18 +75,18 @@ class ShipBoardTest {
         enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
         
+        int columnA = 0;
         int row1 = 0;
         int row3 = 2;
-        int columnA = 0;
         
         // Got strike in water for the 1st time
-        assertEquals(false, shipBoard.getStrike(row3, columnA));
+        assertEquals(false, shipBoard.getStrike(columnA, row3));
         // Got strike in the same water position for 2nd time
-        assertEquals(false, shipBoard.getStrike(row3, columnA));
+        assertEquals(false, shipBoard.getStrike(columnA, row3));
         // Got strike on a ship
-        assertEquals(true, shipBoard.getStrike(row1, columnA));
+        assertEquals(true, shipBoard.getStrike(columnA, row1));
         // Got strike on a ship in the same position 
-        assertEquals(false, shipBoard.getStrike(row1, columnA));
+        assertEquals(true, shipBoard.getStrike(columnA, row1));
     }
 
     @Test
@@ -96,9 +96,9 @@ class ShipBoardTest {
         enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
         
-        for(int row = 0; row <= 1; row++) {
-            for(int col = 0; col < Constants.BOARD_SIZE; col++) {
-                shipBoard.getStrike(row, col);
+        for (int row = 0; row <= 1; row++) {
+            for (int col = 0; col < Constants.BOARD_SIZE; col++) {
+                shipBoard.getStrike(col, row);
             }
         }
         assertEquals(true, shipBoard.allShipsSank());
@@ -106,27 +106,29 @@ class ShipBoardTest {
 
     @Test
     void testLastStrikeSankShip() {        
-        int row1 = 0;
         int columnA = 0;
+        int columnE = 4;
+        int row1 = 0;
         int shipSize1 = 5;
 
         enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
-        shipBoard.getStrike(row1, columnA);
-        
-        assertEquals(false, shipBoard.lastStrikeSankShip());
-        
-        for(int col = columnA; col < columnA + shipSize1; col++) {
-            shipBoard.getStrike(row1, col);
+                
+        for (int col = columnA; col < columnA + shipSize1; col++) {
+            boolean expectedResult = false;
+            shipBoard.getStrike(col, row1);
+            if (col == columnE) { // Strike in that position sank the ship
+                expectedResult = true;
+            }
+            assertEquals(expectedResult, shipBoard.lastStrikeSankShip());
         }
-        assertEquals(true, shipBoard.lastStrikeSankShip());
     }
 
     @Test
     void testPrintBoard() {        
+        int columnA = 0;
         int row1 = 0;
         int row4 = 3;
-        int columnA = 0;
         
         String expectedPrintOutput = 
                 "   --A-B-C-D-E-F-G-H-I-J--" + System.lineSeparator()
@@ -145,8 +147,8 @@ class ShipBoardTest {
         
         enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
-        shipBoard.getStrike(row1, columnA);
-        shipBoard.getStrike(row4, columnA);
+        shipBoard.getStrike(columnA, row1);
+        shipBoard.getStrike(columnA, row4);
                 
         redirectSystemOut();
         

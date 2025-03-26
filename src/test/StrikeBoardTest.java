@@ -28,7 +28,6 @@ class StrikeBoardTest {
 
     @Test
     void testAddStrike() {
-        
         int row1 = 0;
         int row5 = 4;
         int row10 = 9;
@@ -38,34 +37,34 @@ class StrikeBoardTest {
         boolean isHit = true;
         boolean isMiss = false;
         
-        strikeBoard.addStrike(row1, columnA, isHit);
+        strikeBoard.addStrike(columnA, row1, isHit);
         assertEquals(1, strikeBoard.getBoard()[row1][columnA]);
         
-        strikeBoard.addStrike(row1, columnA, isMiss);
+        strikeBoard.addStrike(columnA, row1, isMiss);
         assertEquals(-1, strikeBoard.getBoard()[row1][columnA]);
         
-        strikeBoard.addStrike(row10, columnA, isHit);
+        strikeBoard.addStrike(columnA, row10, isHit);
         assertEquals(1, strikeBoard.getBoard()[row10][columnA]);
         
-        strikeBoard.addStrike(row10, columnA, isMiss);
+        strikeBoard.addStrike(columnA, row10, isMiss);
         assertEquals(-1, strikeBoard.getBoard()[row10][columnA]);
         
-        strikeBoard.addStrike(row1, columnJ, isHit);
+        strikeBoard.addStrike(columnJ, row1, isHit);
         assertEquals(1, strikeBoard.getBoard()[row1][columnJ]);
         
-        strikeBoard.addStrike(row1, columnJ, isMiss);
+        strikeBoard.addStrike(columnJ, row1, isMiss);
         assertEquals(-1, strikeBoard.getBoard()[row1][columnJ]);
         
-        strikeBoard.addStrike(row10, columnJ, isHit);
+        strikeBoard.addStrike(columnJ, row10, isHit);
         assertEquals(1, strikeBoard.getBoard()[row10][columnJ]);
         
-        strikeBoard.addStrike(row10, columnJ, isMiss);
+        strikeBoard.addStrike(columnJ, row10, isMiss);
         assertEquals(-1, strikeBoard.getBoard()[row10][columnJ]);
         
-        strikeBoard.addStrike(row5, columnF, isHit);
+        strikeBoard.addStrike(columnF, row5, isHit);
         assertEquals(1, strikeBoard.getBoard()[row5][columnF]);
         
-        strikeBoard.addStrike(row5, columnF, isMiss);
+        strikeBoard.addStrike(columnF, row5, isMiss);
         assertEquals(-1, strikeBoard.getBoard()[row5][columnF]);
     }
 
@@ -92,8 +91,8 @@ class StrikeBoardTest {
               + "10 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
               + "   -----------------------" + System.lineSeparator();
         
-        strikeBoard.addStrike(row1, columnA, isHit);
-        strikeBoard.addStrike(row1, columnB, isMiss);
+        strikeBoard.addStrike(columnA, row1, isHit);
+        strikeBoard.addStrike(columnB, row1, isMiss);
         
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));

@@ -36,17 +36,14 @@ public class BattleShip {
         
         System.out.println(Messages.BATTLE_BEGIN);
         
-        while(!isGameOver) {
+        while (!isGameOver) {
             System.out.println(player1 + " boards before assault");
             player1.printShipBoard();
             player1.printStrikeBoard();
-            int[] nextStrike1 = player1.enterNextStrike();
+            int[] nextStrike1 = player1.enterNextStrike(System.in);
             boolean isPlayer1StrikeHit = player2.getStrike(nextStrike1[0], nextStrike1[1]);
             player1.update(nextStrike1[0], nextStrike1[1], isPlayer1StrikeHit);
-            System.out.println(player1 + " boards after assault");
-            player1.printShipBoard();
-            player1.printStrikeBoard();
-            if(player2.allShipsSank()) {
+            if (player2.allShipsSank()) {
                 isGameOver = true;
                 System.out.println(player1 + " WINS");
                 continue;
@@ -55,13 +52,10 @@ public class BattleShip {
             System.out.println(player2 + " boards before assault");
             player2.printShipBoard();
             player2.printStrikeBoard();
-            int[] nextStrike2 = player2.enterNextStrike();
+            int[] nextStrike2 = player2.enterNextStrike(System.in);
             boolean isPlayer2StrikeHit = player1.getStrike(nextStrike2[0], nextStrike2[1]);
             player2.update(nextStrike2[0], nextStrike2[1], isPlayer2StrikeHit);
-            System.out.println(player2 + " boards after assault");
-            player2.printShipBoard();
-            player2.printStrikeBoard();
-            if(player1.allShipsSank()) {
+            if (player1.allShipsSank()) {
                 isGameOver = true;
                 System.out.println(player2 + " WINS");
                 continue;
@@ -73,11 +67,11 @@ public class BattleShip {
         Scanner scanner = new Scanner(System.in);
         String playerName = "";
 
-        System.out.print(message); //"And you, Captain of the 2nd fleet, what shall we call you? "
+        System.out.print(message);
         playerName = scanner.nextLine();
         System.out.println();
         
-        if(playerName.isEmpty()) {
+        if (playerName.isEmpty()) {
             return defaultName;
         }    
         return playerName;

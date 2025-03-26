@@ -26,22 +26,23 @@ public class ShipBoard {
         int shipSize = ships[id - 1];
         
         System.out.printf(Messages.ENTER_SHIP_POSITION, shipType, shipSize);
+        System.out.println();
         
         while (true) {
             String input = scanner.nextLine();
             String[] inputParts = input.split(" ");
             
-            if(helper.isShipPositionInputValid(inputParts)) {
+            if (helper.isShipPositionInputValid(inputParts)) {
                 startingColumn = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
                 startingRow = Integer.parseInt(inputParts[1]) - 1;
                 direction = Character.toUpperCase(inputParts[2].charAt(0));
                 
-                if(!helper.isShipFitInPosition(startingColumn, startingRow, direction, shipSize)) {
+                if (!helper.isShipFitInPosition(startingColumn, startingRow, direction, shipSize)) {
                     System.out.println(Messages.SHIP_DONT_FIT);
                     continue;
                 }
                 
-                if(helper.isShipCollidingWithOther(startingColumn, startingRow, direction, shipSize, board)) {
+                if (helper.isShipCollidingWithOther(startingColumn, startingRow, direction, shipSize, board)) {
                     System.out.println(Messages.SHIP_COLLIDING_WITH_OTHER);
                     continue;
                 }
@@ -54,35 +55,29 @@ public class ShipBoard {
         printBoard();
     }
     
-    public boolean getStrike(int row, int column) {
+    public boolean getStrike(int column, int row) {
         lastStrikeSankShip = false; //TODO Review 
-        
-        //TODO Review if that check is not needed here
-        if(strickenBoardPositions[row][column] == true) {
-            return false;
-        }
         
         strickenBoardPositions[row][column] = true;
         
-        if(board[row][column] == 0) {
+        if (board[row][column] == 0) {
             return false;
         }
         
         int shipId = board[row][column];
         int shipRemainingPositions = --ships[shipId - 1];
         
-        if(shipRemainingPositions == 0) {
+        if (shipRemainingPositions == 0) {
             lastStrikeSankShip = true;
             System.out.println("*** TO BE REVIEWED - Last strike have sank your "
                     + helper.resolveShipType(shipId));
-        } 
-        
+        }
         return true;
     }
     
     public boolean allShipsSank() {
-        for(int shipSize: ships) {
-            if(shipSize != 0) {
+        for (int shipSize: ships) {
+            if (shipSize != 0) {
                 return false;
             }
         }
@@ -96,12 +91,12 @@ public class ShipBoard {
     public void printBoard() {
         System.out.println("   --A-B-C-D-E-F-G-H-I-J--");
         for (int row = 0; row < N; row++) {
-            if(row != N - 1) {
+            if (row != N - 1) {
                 System.out.print(" ");
             }
             System.out.print((row + 1) + " | ");
             for (int col = 0; col < N; col++) {
-                if(board[row][col] == 0) {
+                if (board[row][col] == 0) {
                     System.out.print(strickenBoardPositions[row][col] == true 
                                      ? "o " 
                                      : "~ ");

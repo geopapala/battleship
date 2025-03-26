@@ -1,24 +1,9 @@
 package main;
 
 public class Helper {
-    
-    private int N = Constants.BOARD_SIZE;
-    
+        
     public String resolveShipType(int id) {
-        switch(id) {
-        case 1:
-            return "Aircraft Carrier";
-        case 2:
-            return "Battleship";
-        case 3:
-            return "Cruiser";
-        case 4:
-            return "Submarine";
-        case 5:
-            return "Destroyer";
-        default:
-            return "Unknown";
-        }
+        return Constants.SHIP_TYPES.getOrDefault(id, Constants.UNKNOWN);
     }
     
     public char resolveShipTypeInitialLetter(int id) {
@@ -31,24 +16,19 @@ public class Helper {
     
     public boolean isShipPositionInputValid(String[] input) {
         return input.length == 3 
-                && input[0].matches("[A-Ja-j]")
-                && input[1].matches("^(10|[1-9])$")
-                && input[2].matches("[HhVv]");
+                && input[0].matches(Constants.VALID_COLUMN_REGEX)
+                && input[1].matches(Constants.VALID_ROW_REGEX)
+                && input[2].matches(Constants.VALID_DIRECTION_REGEX);
     }
     
     public boolean isShipFitInPosition(int startingColumn, 
                                        int startingRow, 
                                        char direction, 
                                        int shipSize) {
-        if(direction == 'H' && startingColumn + shipSize <= N) {
-            return true;
-        }
-        
-        if(direction == 'V' && startingRow + shipSize <= N) {
-            return true;
-        }
-        
-        return false;
+        return (direction == Constants.HORIZONTAL 
+                        && startingColumn + shipSize <= Constants.BOARD_SIZE) 
+                || (direction == Constants.VERTICAL 
+                        && startingRow + shipSize <= Constants.BOARD_SIZE);
     }
     
     public boolean isShipCollidingWithOther(int startingColumn, 
@@ -56,38 +36,39 @@ public class Helper {
                                             char direction, 
                                             int shipSize, 
                                             int[][] board) {
-        if(direction == 'H') {
-            for(int col = startingColumn; col < startingColumn + shipSize; col++) {
-                if(board[startingRow][col] != 0) {
+        if (direction == Constants.HORIZONTAL) {
+            for (int col = startingColumn; col < startingColumn + shipSize; col++) {
+                if (board[startingRow][col] != 0) {
                     return true;
                 }
             }
         }
         
-        if(direction == 'V') {
-            for(int row = startingRow; row < startingRow + shipSize; row++) {
-                if(board[row][startingColumn] != 0) {
+        if (direction == Constants.VERTICAL) {
+            for (int row = startingRow; row < startingRow + shipSize; row++) {
+                if (board[row][startingColumn] != 0) {
                     return true;
                 }
             }
         }
+        
         return false;
     }
-    
+        
     public void placeShip(int startingColumn, 
                           int startingRow, 
                           char direction, 
                           int shipId,
                           int shipSize, 
                           int[][] board) {
-        if(direction == 'H') {
-            for(int col = startingColumn; col < startingColumn + shipSize; col++) {
+        if (direction == Constants.HORIZONTAL) {
+            for (int col = startingColumn; col < startingColumn + shipSize; col++) {
                 board[startingRow][col] = shipId;
             }
         }
             
-        if(direction == 'V') {
-            for(int row = startingRow; row < startingRow + shipSize; row++) {
+        if (direction == Constants.VERTICAL) {
+            for (int row = startingRow; row < startingRow + shipSize; row++) {
                 board[row][startingColumn] = shipId;
             }
         }
