@@ -48,7 +48,7 @@ public class Messages {
           + "Enter the position and the direction of your %s (size %d):";
     
     public static final String SHIP_COLLIDING_WITH_OTHER = 
-            "There's already another ship blocking this direction. Let's try again\n!";
+            "There's already another ship blocking this direction. Let's try again!\n";
 
     public static final String SHIP_DONT_FIT = 
             "The ship doesn't fit in this location. No worries - try again!\n";

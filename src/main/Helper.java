@@ -3,7 +3,7 @@ package main;
 public class Helper {
         
     public String resolveShipType(int id) {
-        return Constants.SHIP_TYPES.getOrDefault(id, Constants.UNKNOWN);
+        return Constants.SHIP_TYPES.getOrDefault(id, "Unknown");
     }
     
     public char resolveShipTypeInitialLetter(int id) {

@@ -14,15 +14,13 @@ public final class Constants {
     public static final String CRUISER = "Cruiser";
     public static final String SUBMARINE = "Submarine";
     public static final String DESTROYER = "Destroyer";
-    public static final String UNKNOWN = "Unknown";
     
     public static final Map<Integer, String> SHIP_TYPES = Map.of(
         1, AIRCRAFT_CARRIER,
         2, BATTLESHIP,
         3, CRUISER,
         4, SUBMARINE,
-        5, DESTROYER,
-        6, UNKNOWN
+        5, DESTROYER
     );
     
     public static final String VALID_COLUMN_REGEX = "[A-Ja-j]";
