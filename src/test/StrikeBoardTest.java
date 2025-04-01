@@ -8,6 +8,8 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import main.StrikeBoard;
 
@@ -25,47 +27,32 @@ class StrikeBoardTest {
         strikeBoard = null;
     }
 
-
-    @Test
-    void testAddStrike() {
-        int row1 = 0;
-        int row5 = 4;
-        int row10 = 9;
-        int columnA = 0;
-        int columnF = 5;
-        int columnJ = 9;
+    @ParameterizedTest
+    @CsvSource({"0,0", "0,9", "9,0", "9,9", "4,4"})
+    void testAddStrikeIsHit(int columnIndex, int rowIndex) {
         boolean isHit = true;
         boolean isMiss = false;
         
-        strikeBoard.addStrike(columnA, row1, isHit);
-        assertEquals(1, strikeBoard.getBoard()[row1][columnA]);
+        strikeBoard.addStrike(columnIndex, rowIndex, isHit);
+        assertEquals(1, strikeBoard.getBoard()[rowIndex][columnIndex]);
         
-        strikeBoard.addStrike(columnA, row1, isMiss);
-        assertEquals(-1, strikeBoard.getBoard()[row1][columnA]);
+        // Ensure that a hit position wont turn to a miss
+        strikeBoard.addStrike(columnIndex, rowIndex, isMiss);
+        assertEquals(1, strikeBoard.getBoard()[rowIndex][columnIndex]);
+    }
+    
+    @ParameterizedTest
+    @CsvSource({"0,0", "0,9", "9,0", "9,9", "4,4"})
+    void testAddStrikeIsMiss(int columnIndex, int rowIndex) {
+        boolean isHit = true;
+        boolean isMiss = false;
         
-        strikeBoard.addStrike(columnA, row10, isHit);
-        assertEquals(1, strikeBoard.getBoard()[row10][columnA]);
+        strikeBoard.addStrike(columnIndex, rowIndex, isMiss);
+        assertEquals(-1, strikeBoard.getBoard()[rowIndex][columnIndex]);
         
-        strikeBoard.addStrike(columnA, row10, isMiss);
-        assertEquals(-1, strikeBoard.getBoard()[row10][columnA]);
-        
-        strikeBoard.addStrike(columnJ, row1, isHit);
-        assertEquals(1, strikeBoard.getBoard()[row1][columnJ]);
-        
-        strikeBoard.addStrike(columnJ, row1, isMiss);
-        assertEquals(-1, strikeBoard.getBoard()[row1][columnJ]);
-        
-        strikeBoard.addStrike(columnJ, row10, isHit);
-        assertEquals(1, strikeBoard.getBoard()[row10][columnJ]);
-        
-        strikeBoard.addStrike(columnJ, row10, isMiss);
-        assertEquals(-1, strikeBoard.getBoard()[row10][columnJ]);
-        
-        strikeBoard.addStrike(columnF, row5, isHit);
-        assertEquals(1, strikeBoard.getBoard()[row5][columnF]);
-        
-        strikeBoard.addStrike(columnF, row5, isMiss);
-        assertEquals(-1, strikeBoard.getBoard()[row5][columnF]);
+        // Ensure that a miss position wont turn to a hit
+        strikeBoard.addStrike(columnIndex, rowIndex, isHit);
+        assertEquals(-1, strikeBoard.getBoard()[rowIndex][columnIndex]);
     }
 
     @Test

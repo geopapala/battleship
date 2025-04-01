@@ -6,11 +6,9 @@ public class StrikeBoard {
     private int[][] board = new int[N][N];
     
     public void addStrike(int column, int row, boolean isHit) {
-        if (isHit) {
-            board[row][column] = 1;
-            return;
+        if (board[row][column] == 0) { 
+            board[row][column] = isHit ? 1 : -1;
         }
-        board[row][column] = -1;
     }
     
     public void printBoard() {
