@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ShipBoard {
     private final int N = Constants.BOARD_SIZE;
     private final int[] ships = {5, 4, 3, 3, 2};
-    private int[] shipsHealth = {5, 4, 3, 3, 2};
+    private int[] shipsHealth;
     private int[][] board = new int[N][N];
     private boolean[][] strickenBoardPositions = new boolean[N][N];
     private boolean lastStrikeSankShip = false;
@@ -14,6 +14,7 @@ public class ShipBoard {
         
     public ShipBoard() {
         helper = new Helper();
+        shipsHealth = ships.clone();
     };
     
     public void enterAllShipsManually(InputStream inputStream) {

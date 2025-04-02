@@ -130,30 +130,32 @@ class ShipBoardTest {
         int row1 = 0;
         int row4 = 3;
         
-        String expectedPrintOutput = 
-                "   --A-B-C-D-E-F-G-H-I-J--" + System.lineSeparator()
-              + " 1 | * A A A A B B B B D |" + System.lineSeparator()
-              + " 2 | C C C S S S ~ ~ ~ D |" + System.lineSeparator()
-              + " 3 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 4 | o ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 5 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 6 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 7 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 8 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 9 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + "10 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + "   -----------------------" + System.lineSeparator()
-              + System.lineSeparator();
+        String[] expectedOutputLines = {"   --A-B-C-D-E-F-G-H-I-J--",
+                                             " 1 | * A A A A B B B B D |",
+                                             " 2 | C C C S S S ~ ~ ~ D |",
+                                             " 3 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             " 4 | o ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             " 5 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             " 6 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             " 7 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             " 8 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             " 9 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             "10 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                             "   -----------------------"};
         
         enterSimulatedInput(simulatedInput2);
         shipBoard.enterAllShipsManually(inputStream);
         shipBoard.getStrike(columnA, row1);
         shipBoard.getStrike(columnA, row4);
-                
+        
         redirectSystemOut();
         
         shipBoard.printBoard();
-        assertEquals(expectedPrintOutput, outputStream.toString());
+        String[] actualOutputLines = 
+                outputStream.toString().split(System.lineSeparator());
+        
+        assertEquals(expectedOutputLines.length, actualOutputLines.length);
+        assertArrayEquals(expectedOutputLines, actualOutputLines);
     }
     
     private void redirectSystemOut() {
