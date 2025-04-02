@@ -7,7 +7,7 @@ public class HumanPlayer {
 
     private String name;
     private ShipBoard shipBoard = new ShipBoard();
-    private StrikeBoard strikeBoard = new StrikeBoard();
+    private StrikeBoard strikeBoard = new StrikeBoard(Constants.BOARD_SIZE);
     private Helper helper = new Helper();
 
     public HumanPlayer() {}

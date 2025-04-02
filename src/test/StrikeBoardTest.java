@@ -13,13 +13,15 @@ import main.StrikeBoard;
 
 class StrikeBoardTest {
 
-    private StrikeBoard strikeBoard;
-    private boolean isHit = true;
-    private boolean isMiss = false;
+    private static final boolean HIT = true;
+    private static final boolean MISS = false;
 
+    private int N = 10;
+    private StrikeBoard strikeBoard;
+    
     @BeforeEach
     void setUp() {
-        strikeBoard = new StrikeBoard();
+        strikeBoard = new StrikeBoard(N);
     }
 
     @AfterEach
@@ -45,21 +47,21 @@ class StrikeBoardTest {
                 "0,8",               "9,8",
                 "0,9", "1,9", "8,9", "9,9"})
     void testAddStrikeIsHit(int columnIndex, int rowIndex) {
-        strikeBoard.addStrike(columnIndex, rowIndex, isHit);
+        strikeBoard.addStrike(columnIndex, rowIndex, HIT);
         assertEquals(1, strikeBoard.getBoard()[rowIndex][columnIndex]);
     }
     
     @Test
-    void testStrikeIsHitOnAlreadyStruckPositionIsHit() {
-        strikeBoard.addStrike(0, 0, isHit);
-        strikeBoard.addStrike(0, 0, isHit);
+    void testMultipleHitsDoNotChangeStateOnStruckPosition() {
+        strikeBoard.addStrike(0, 0, HIT);
+        strikeBoard.addStrike(0, 0, HIT);
         assertEquals(1, strikeBoard.getBoard()[0][0]);
     }
     
     @Test
-    void testStrikeIsMissOnAlreadyStruckPositionIsHit() {
-        strikeBoard.addStrike(0, 0, isHit);
-        strikeBoard.addStrike(0, 0, isMiss);
+    void testMissDoesNotOverwriteHitOnStruckPosition() {
+        strikeBoard.addStrike(0, 0, HIT);
+        strikeBoard.addStrike(0, 0, MISS);
         assertEquals(1, strikeBoard.getBoard()[0][0]);
     }
     
@@ -71,28 +73,28 @@ class StrikeBoardTest {
                 "0,8",               "9,8",
                 "0,9", "1,9", "8,9", "9,9"})
     void testAddStrikeIsMiss(int columnIndex, int rowIndex) {
-        strikeBoard.addStrike(columnIndex, rowIndex, isMiss);
+        strikeBoard.addStrike(columnIndex, rowIndex, MISS);
         assertEquals(-1, strikeBoard.getBoard()[rowIndex][columnIndex]);
     }
     
     @Test
-    void testStrikeIsHitOnAlreadyStruckPositionIsMiss() {
-        strikeBoard.addStrike(0, 0, isMiss);
-        strikeBoard.addStrike(0, 0, isHit);
+    void testHitDoesNotOverwriteMissOnStruckPosition() {
+        strikeBoard.addStrike(0, 0, MISS);
+        strikeBoard.addStrike(0, 0, HIT);
         assertEquals(-1, strikeBoard.getBoard()[0][0]);
     }
     
     @Test
-    void testStrikeIsMissOnAlreadyStruckPositionIsMiss() {
-        strikeBoard.addStrike(0, 0, isMiss);
-        strikeBoard.addStrike(0, 0, isMiss);
+    void testMultipleMissesDoNotChangeStateOnStruckPosition() {
+        strikeBoard.addStrike(0, 0, MISS);
+        strikeBoard.addStrike(0, 0, MISS);
         assertEquals(-1, strikeBoard.getBoard()[0][0]);
     }
     
     @Test
     void testGetSymbol() {
-        strikeBoard.addStrike(0, 0, isHit);
-        strikeBoard.addStrike(1, 0, isMiss);
+        strikeBoard.addStrike(0, 0, HIT);
+        strikeBoard.addStrike(1, 0, MISS);
         
         assertEquals("*", strikeBoard.getSymbol(0,0));
         assertEquals("o", strikeBoard.getSymbol(1,0));
