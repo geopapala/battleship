@@ -21,9 +21,16 @@ public class BattleShip {
 
         String name1 = enterPlayerName(Messages.PLAYER1_NAME_ASKING, 
                                        defaultName1);
+        String name2 = "";
+        while(true) {
+            name2 = enterPlayerName(Messages.PLAYER2_NAME_ASKING, 
+                                           defaultName2);
+            if (!name2.equals(name1)) {
+                break;
+            }
+            System.out.println(Messages.PLAYERS_WITH_SAME_NAME);
+        }
         
-        String name2 = enterPlayerName(Messages.PLAYER2_NAME_ASKING, 
-                                       defaultName2);
         
         System.out.printf(Messages.SHIP_PLACEMENT_INSTRUCTIONS, name1);
         
@@ -37,7 +44,12 @@ public class BattleShip {
         System.out.println(Messages.BATTLE_BEGIN);
         
         while (!isGameOver) {
-            System.out.println(player1 + " boards before assault");
+            System.out.printf(
+                    "== ROUND %d ============================"
+                    + "========================================\n", 
+                    ++roundCounter);
+            System.out.println("   PLAYER " + player1);
+            System.out.print(Messages.SEPARATOR);
             player1.printBoards();
             int[] nextStrike1 = player1.enterNextStrike(System.in);
             boolean isPlayer1StrikeHit = player2.getStrike(nextStrike1[0], nextStrike1[1]);
@@ -48,7 +60,8 @@ public class BattleShip {
                 continue;
             }
             
-            System.out.println(player2 + " boards before assault");
+            System.out.println("   PLAYER " + player2);
+            System.out.print(Messages.SEPARATOR);
             player2.printBoards();
             int[] nextStrike2 = player2.enterNextStrike(System.in);
             boolean isPlayer2StrikeHit = player1.getStrike(nextStrike2[0], nextStrike2[1]);
@@ -73,11 +86,5 @@ public class BattleShip {
             return defaultName;
         }    
         return playerName;
-    }
-    
-    private void printLines(int num) {
-        for (int i = 0; i < num; i++) {
-            System.out.println();
-        }
     }
 }

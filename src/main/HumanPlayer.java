@@ -48,8 +48,8 @@ public class HumanPlayer {
     
     private boolean isStrikePositionValid(String[] input) {
         return input.length == 2
-            && input[0].matches("[A-Ja-j]")
-            && input[1].matches("^(10|[1-9])$");
+            && input[0].matches(Constants.VALID_COLUMN_REGEX)
+            && input[1].matches(Constants.VALID_ROW_REGEX);
     }
     
     private boolean isPositionAlreadyStricken(int column, int row) {

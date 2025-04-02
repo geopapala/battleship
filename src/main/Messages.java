@@ -34,6 +34,9 @@ public class Messages {
     
     public static final String PLAYER2_NAME_ASKING = 
             "And you, Captain of the 2nd fleet, what shall we call you? ";
+    
+    public static final String PLAYERS_WITH_SAME_NAME = 
+            "Nice name but it is already taken. Try with another!";
         
     public static final String SHIP_PLACEMENT_INSTRUCTIONS = SEPARATOR
           + "Captain %s place your ships on your board. For each ship provide its\n"
