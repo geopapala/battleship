@@ -14,21 +14,35 @@ public class Helper {
         return Character.toUpperCase(columnLetter) - 'A';
     }
     
-    public boolean isShipPositionInputValid(String[] input) {
+    public boolean isValidShipPositionInput(String[] input) {
         return input.length == 3 
-                && input[0].matches(Constants.VALID_COLUMN_REGEX)
-                && input[1].matches(Constants.VALID_ROW_REGEX)
-                && input[2].matches(Constants.VALID_DIRECTION_REGEX);
+                && isValidColumn(input[0])
+                && isValidRow(input[1])
+                && isValidDirection(input[2]);
+    }
+    
+    private boolean isValidColumn(String column) {
+        return column.matches(Constants.VALID_COLUMN_REGEX);
+    }
+
+    private boolean isValidRow(String row) {
+        return row.matches(Constants.VALID_ROW_REGEX);
+    }
+
+    private boolean isValidDirection(String direction) {
+        return direction.matches(Constants.VALID_DIRECTION_REGEX);
     }
     
     public boolean isShipFitInPosition(int startingColumn, 
                                        int startingRow, 
                                        char direction, 
                                        int shipSize) {
-        return (direction == Constants.HORIZONTAL 
-                        && startingColumn + shipSize <= Constants.BOARD_SIZE) 
-                || (direction == Constants.VERTICAL 
-                        && startingRow + shipSize <= Constants.BOARD_SIZE);
+        if (direction == Constants.HORIZONTAL) {
+            return (startingColumn + shipSize <= Constants.BOARD_SIZE);
+        } else if (direction == Constants.VERTICAL) {
+            return (startingRow + shipSize <= Constants.BOARD_SIZE);
+        }
+        return false;
     }
     
     public boolean isShipCollidingWithOther(int startingColumn, 

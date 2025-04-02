@@ -4,12 +4,17 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class ShipBoard {
-    private int N = Constants.BOARD_SIZE;
-    private int[] ships = {5, 4, 3, 3, 2};
+    private final int N = Constants.BOARD_SIZE;
+    private final int[] ships = {5, 4, 3, 3, 2};
+    private int[] shipsHealth = {5, 4, 3, 3, 2};
     private int[][] board = new int[N][N];
     private boolean[][] strickenBoardPositions = new boolean[N][N];
     private boolean lastStrikeSankShip = false;
-    private Helper helper = new Helper();
+    private Helper helper;
+        
+    public ShipBoard() {
+        helper = new Helper();
+    };
     
     public void enterAllShipsManually(InputStream inputStream) {
         Scanner scanner = new Scanner(inputStream);
@@ -32,7 +37,7 @@ public class ShipBoard {
             String input = scanner.nextLine();
             String[] inputParts = input.split(" ");
             
-            if (helper.isShipPositionInputValid(inputParts)) {
+            if (helper.isValidShipPositionInput(inputParts)) {
                 startingColumn = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
                 startingRow = Integer.parseInt(inputParts[1]) - 1;
                 direction = Character.toUpperCase(inputParts[2].charAt(0));
@@ -65,7 +70,7 @@ public class ShipBoard {
         }
         
         int shipId = board[row][column];
-        int shipRemainingPositions = --ships[shipId - 1];
+        int shipRemainingPositions = --shipsHealth[shipId - 1];
         
         if (shipRemainingPositions == 0) {
             lastStrikeSankShip = true;
@@ -76,8 +81,8 @@ public class ShipBoard {
     }
     
     public boolean allShipsSank() {
-        for (int shipSize: ships) {
-            if (shipSize != 0) {
+        for (int shipHealth: shipsHealth) {
+            if (shipHealth != 0) {
                 return false;
             }
         }

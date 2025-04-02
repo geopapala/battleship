@@ -70,15 +70,15 @@ class HelperTest {
                             "a 10 v", "A 10 v", "a 10 V", "A 10 V",
                             "j 10 v", "J 10 v", "j 10 V", "J 10 V",
                             "a 5 v", "A 5 v", "a 5 V", "A 5 V",})
-    void testIsShipPositionInputValidReturnsTrueForValidInput(String input) {
-        assertTrue(helper.isShipPositionInputValid(input.split(" ")));
+    void testIsValidShipPositionInputReturnsTrueForValidInput(String input) {
+        assertTrue(helper.isValidShipPositionInput(input.split(" ")));
     }
     
     @ParameterizedTest
     @ValueSource(strings = {"abcd", "A B C D", "k 5 H", "K 5 H", 
                             "a 15 H", "A -15 H", "A 0 H", "A 5 k", "A 5 K"})
-    void testIsShipPositionInputValidReturnsFalseForInvalidInput(String input) {
-        assertFalse(helper.isShipPositionInputValid(input.split(" ")));
+    void testIsValidShipPositionInputReturnsFalseForInvalidInput(String input) {
+        assertFalse(helper.isValidShipPositionInput(input.split(" ")));
     }
     
     // columnIndex, rowIndex, direction, shipSize
@@ -105,7 +105,9 @@ class HelperTest {
     @CsvSource({"9, 0, H, 5", "9, 4, H, 5", "9, 9, H, 5",
                 "0, 9, V, 5", "4, 9, V, 5", "9, 9, V, 5",
                 "5, 6, V, 5", "6, 5, H, 5",
-                "6, 6, H, 5", "6, 6, V, 5"})
+                "6, 6, H, 5", "6, 6, V, 5",
+                /*two cases with invalid direction*/
+                "0, 0, A, 5", "9, 0, A, 5"})
     void testIsShipFitInPositionReturnsFalse(int startingColumnIndex, 
                                              int startingRowIndex, 
                                              char direction, 

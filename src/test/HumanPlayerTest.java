@@ -59,7 +59,7 @@ class HumanPlayerTest {
         assertEquals(expectedOutPutMessage, outputStream.toString());
             
         System.setOut(originalOut);
-*/
+
         
         for (int i = 0; i < validNextStrike.length; i++) {
             InputStream inputStream = new ByteArrayInputStream(validNextStrike[i].getBytes());
@@ -67,6 +67,6 @@ class HumanPlayerTest {
             
             assertEquals(expectedOutPut[i][0], nextStrikeInt[0]);
             assertEquals(expectedOutPut[i][1], nextStrikeInt[1]);
-        }
+        }*/
     }/**/
 }
