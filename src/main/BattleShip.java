@@ -38,8 +38,7 @@ public class BattleShip {
         
         while (!isGameOver) {
             System.out.println(player1 + " boards before assault");
-            player1.printShipBoard();
-            player1.printStrikeBoard();
+            player1.printBoards();
             int[] nextStrike1 = player1.enterNextStrike(System.in);
             boolean isPlayer1StrikeHit = player2.getStrike(nextStrike1[0], nextStrike1[1]);
             player1.update(nextStrike1[0], nextStrike1[1], isPlayer1StrikeHit);
@@ -50,8 +49,7 @@ public class BattleShip {
             }
             
             System.out.println(player2 + " boards before assault");
-            player2.printShipBoard();
-            player2.printStrikeBoard();
+            player2.printBoards();
             int[] nextStrike2 = player2.enterNextStrike(System.in);
             boolean isPlayer2StrikeHit = player1.getStrike(nextStrike2[0], nextStrike2[1]);
             player2.update(nextStrike2[0], nextStrike2[1], isPlayer2StrikeHit);

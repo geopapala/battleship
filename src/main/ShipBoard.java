@@ -91,25 +91,22 @@ public class ShipBoard {
     public void printBoard() {
         System.out.println("   --A-B-C-D-E-F-G-H-I-J--");
         for (int row = 0; row < N; row++) {
-            if (row != N - 1) {
-                System.out.print(" ");
-            }
-            System.out.print((row + 1) + " | ");
+            System.out.printf("%2d | ", row + 1);
             for (int col = 0; col < N; col++) {
-                if (board[row][col] == 0) {
-                    System.out.print(strickenBoardPositions[row][col] == true 
-                                     ? "o " 
-                                     : "~ ");
-                } else {
-                    System.out.print(strickenBoardPositions[row][col] == true 
-                                     ? "* " 
-                                     : helper.resolveShipTypeInitialLetter(board[row][col]) + " ");
-                }
+                System.out.print(getSymbol(row, col) + " ");
             }
             System.out.println("|");
         }
         System.out.println("   -----------------------");
         System.out.println();
+    }
+    
+    public String getSymbol(int row, int col) {
+        if (board[row][col] == 0) {
+            return strickenBoardPositions[row][col] ? "o" : "~";
+        }
+        return strickenBoardPositions[row][col] 
+                ? "*" : String.valueOf(helper.resolveShipTypeInitialLetter(board[row][col]));
     }
 
     public int[][] getBoard() {

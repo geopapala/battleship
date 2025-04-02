@@ -11,27 +11,11 @@ public class StrikeBoard {
         }
     }
     
-    public void printBoard() {
-        System.out.println("   --A-B-C-D-E-F-G-H-I-J--");
-        for (int row = 0; row < N; row++) {
-            if (row != N - 1) {
-                System.out.print(" ");
-            }
-            System.out.print((row + 1) + " | ");
-            for (int col = 0; col < N; col++) {
-                if (board[row][col] == 0) {
-                    System.out.print("~ ");
-                }
-                if (board[row][col] == 1) {
-                    System.out.print("* ");
-                }
-                if (board[row][col] == -1) {
-                    System.out.print("o ");
-                }
-            }
-            System.out.println("|");
-        }
-        System.out.println("   -----------------------");
+    public String getSymbol(int column, int row) {
+        if (board[row][column] == 1) return "*";  // Hit
+        if (board[row][column] == -1) return "o"; // Miss
+        if (board[row][column] == 0) return "~";  // Water
+        return "?"; // Should never happen, just a safeguard
     }
     
     public int[][] getBoard() {

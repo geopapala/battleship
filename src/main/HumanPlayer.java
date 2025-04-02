@@ -84,15 +84,24 @@ public class HumanPlayer {
         return this.name;
     }
     
-    public void printShipBoard() {
-        shipBoard.printBoard();
-    }
-    
-    public void printStrikeBoard() {
-        strikeBoard.printBoard();        
-    }
-    
     public void printBoards() {
-        // TODO
+        int N = Constants.BOARD_SIZE;
+
+        System.out.println("         SHIP BOARD                    STRIKE BOARD");
+        System.out.println("   --A-B-C-D-E-F-G-H-I-J--       --A-B-C-D-E-F-G-H-I-J--");
+        for (int row = 0; row < N; row++) {
+            System.out.printf("%2d | ", row + 1);
+            for (int col = 0; col < N; col++) {
+                System.out.print(shipBoard.getSymbol(row, col) + " ");
+            }
+            System.out.print("|    "); // Spacer between boards
+
+            System.out.printf("%2d | ", row + 1);
+            for (int col = 0; col < N; col++) {
+                System.out.print(strikeBoard.getSymbol(row, col) + " ");
+            }
+            System.out.println("|");
+        }
+        System.out.println("   -----------------------       -----------------------");
     }
 }

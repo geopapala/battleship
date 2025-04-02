@@ -2,9 +2,6 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,40 +51,17 @@ class StrikeBoardTest {
         strikeBoard.addStrike(columnIndex, rowIndex, isHit);
         assertEquals(-1, strikeBoard.getBoard()[rowIndex][columnIndex]);
     }
-
+    
     @Test
-    void testPrintBoard() {
-        
-        int row1 = 0;
-        int columnA = 0;
-        int columnB = 1;
+    void testGetSymbol() {
         boolean isHit = true;
         boolean isMiss = false;
         
-        String expectedPrintOutput = 
-                "   --A-B-C-D-E-F-G-H-I-J--" + System.lineSeparator()
-              + " 1 | * o ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 2 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 3 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 4 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 5 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 6 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 7 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 8 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + " 9 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + "10 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |" + System.lineSeparator()
-              + "   -----------------------" + System.lineSeparator();
+        strikeBoard.addStrike(0, 0, isHit);
+        strikeBoard.addStrike(1, 0, isMiss);
         
-        strikeBoard.addStrike(columnA, row1, isHit);
-        strikeBoard.addStrike(columnB, row1, isMiss);
-        
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-        
-        strikeBoard.printBoard();
-        assertEquals(expectedPrintOutput, outputStream.toString());
-        
-        System.setOut(System.out);
+        assertEquals("*", strikeBoard.getSymbol(0,0));
+        assertEquals("o", strikeBoard.getSymbol(1,0));
+        assertEquals("~", strikeBoard.getSymbol(2,0));
     }
-
 }
