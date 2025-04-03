@@ -12,30 +12,33 @@ import main.ShipBoard;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 class ShipBoardTest {
     
+    private int boardSize = 10;
     private ShipBoard shipBoard;
     private ByteArrayInputStream inputStream;
+    private Scanner scanner;
     private PrintStream originalOut;
     private ByteArrayOutputStream outputStream;
-    private String simulatedInput1 = "w 15 k\n" // Invalid input
-                                   + "j 5 h\n"  // No fit input
-                                   + "a 5 h\n"
-                                   + "c 3 v\n"  // Colliding input
-                                   + "d 2 h\n"
-                                   + "h 10 h\n"
-                                   + "h 4 v\n"
-                                   + "a 9 v";
-    private String simulatedInput2 = "a 1 h\n"
-                                   + "f 1 h\n"
-                                   + "a 2 h\n"
-                                   + "d 2 h\n"
-                                   + "j 1 v";
+    private String simulatedInput1 = "w15k\n" // Invalid input
+                                   + "j5h\n"  // No fit input
+                                   + "a5h\n"
+                                   + "c3v\n"  // Colliding input
+                                   + "d2h\n"
+                                   + "h10h\n"
+                                   + "h4v\n"
+                                   + "a9v";
+    private String simulatedInput2 = "a1h\n"
+                                   + "f1h\n"
+                                   + "a2h\n"
+                                   + "d2h\n"
+                                   + "j1v";
 
     @BeforeEach
     void setUp() {
-        shipBoard = new ShipBoard();
+        shipBoard = new ShipBoard(boardSize);
         redirectSystemOut();
     }
 
@@ -59,7 +62,7 @@ class ShipBoardTest {
                                  {5,0,0,0,0,0,0,3,3,3}};
 
         enterSimulatedInput(simulatedInput1);
-        shipBoard.enterAllShipsManually(inputStream);
+        shipBoard.enterAllShipsManually(scanner);
 
         int[][] board = shipBoard.getBoard();
         
@@ -73,7 +76,7 @@ class ShipBoardTest {
     @Test
     void testGetStrike() {        
         enterSimulatedInput(simulatedInput2);
-        shipBoard.enterAllShipsManually(inputStream);
+        shipBoard.enterAllShipsManually(scanner);
         
         int columnA = 0;
         int row1 = 0;
@@ -94,7 +97,7 @@ class ShipBoardTest {
         assertEquals(false, shipBoard.allShipsSank());
         
         enterSimulatedInput(simulatedInput2);
-        shipBoard.enterAllShipsManually(inputStream);
+        shipBoard.enterAllShipsManually(scanner);
         
         for (int row = 0; row <= 1; row++) {
             for (int col = 0; col < Constants.BOARD_SIZE; col++) {
@@ -112,7 +115,7 @@ class ShipBoardTest {
         int shipSize1 = 5;
 
         enterSimulatedInput(simulatedInput2);
-        shipBoard.enterAllShipsManually(inputStream);
+        shipBoard.enterAllShipsManually(scanner);
                 
         for (int col = columnA; col < columnA + shipSize1; col++) {
             boolean expectedResult = false;
@@ -131,20 +134,20 @@ class ShipBoardTest {
         int row4 = 3;
         
         String[] expectedOutputLines = {"   --A-B-C-D-E-F-G-H-I-J--",
-                                             " 1 | * A A A A B B B B D |",
-                                             " 2 | C C C S S S ~ ~ ~ D |",
-                                             " 3 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             " 4 | o ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             " 5 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             " 6 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             " 7 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             " 8 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             " 9 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             "10 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
-                                             "   -----------------------"};
+                                        " 1 | * A A A A B B B B D |",
+                                        " 2 | C C C S S S ~ ~ ~ D |",
+                                        " 3 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        " 4 | o ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        " 5 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        " 6 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        " 7 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        " 8 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        " 9 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        "10 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |",
+                                        "   -----------------------"};
         
         enterSimulatedInput(simulatedInput2);
-        shipBoard.enterAllShipsManually(inputStream);
+        shipBoard.enterAllShipsManually(scanner);
         shipBoard.getStrike(columnA, row1);
         shipBoard.getStrike(columnA, row4);
         
@@ -170,5 +173,6 @@ class ShipBoardTest {
     
     private void enterSimulatedInput(String input) {
         inputStream = new ByteArrayInputStream(input.getBytes());
+        scanner = new Scanner(inputStream);
     }
 }

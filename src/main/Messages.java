@@ -2,6 +2,9 @@ package main;
 
 public class Messages {
 
+    public static final String ROUND_SEPARATOR = 
+            "== ROUND %d ====================================================================\n";
+    
     public static final String SEPARATOR = 
             "--------------------------------------------------------------------------------\n";
     
@@ -17,7 +20,7 @@ public class Messages {
           + "1. Each player enters their name when prompt and secretly places their ships on\n"
           + "   their own board. Ships vary in size and can be placed horizontally or\n"
           + "   vertically, but not diagonally.\n"
-          + "2. Players alternate turns striking coordinates (like 'C 4') to guess where\n"
+          + "2. Players alternate turns striking coordinates (like 'C4') to guess where\n"
           + "   the opponent's ships are.\n"
           + "3. The opponent announces whether the guess was a 'hit' (a part of a ship) or\n"
           + "   a 'miss' (empty water). Your guesses are marked on your strike board."
@@ -41,8 +44,8 @@ public class Messages {
     public static final String SHIP_PLACEMENT_INSTRUCTIONS = SEPARATOR
           + "Captain %s place your ships on your board. For each ship provide its\n"
           + "starting position and direction in the following format:\n"
-          + "   [Column A-J] [Row 1-10] [H for Horizontal or V for Vertical].\n"
-          + "For example, 'A 5 H' means the ship starts at column A, row 5, and is placed\n"
+          + "   [Column A-J][Row 1-10][H for Horizontal or V for Vertical].\n"
+          + "For example, 'A5H' means the ship starts at column A, row 5, and is placed\n"
           + "horizontally. Remember, if a ship doesn’t fit, I’ll ask you to try again.\n"
           + "\n"
           + "The board is a 10x10 grid like the one below where the symbol '~' means water\n";
@@ -58,10 +61,10 @@ public class Messages {
 
     public static final String INVALID_SHIP_PLACEMENT = 
             "The position or direction you entered isn't valid. Please make sure that:\n"
-          + "1. You have left spaces between the entries (e.g., 'A 5 H').\n"
+          + "1. You have NOT left spaces between the entries.\n"
           + "2. The column is between A and J\n"
           + "3. The row is between 1 and 10\n"
-          + "4. The direction is either H (Horizontal) or V (Vertical), and\n"
+          + "4. The direction is either h/H (Horizontal) or v/V (Vertical)\n"
           + "Don't worry, just give it another go!\n";
     
     public static final String BATTLE_BEGIN = SEPARATOR
@@ -69,7 +72,7 @@ public class Messages {
           + "\n";
     
     public static final String NEXT_STRIKE_POSITION = SEPARATOR
-          + "Captain %s enter your next strike position formatted as [A-J] [1-10]:";
+          + "Captain %s enter your next strike position formatted as [A-J][1-10]:";
     
     public static final String ALREADY_STRICKEN_POSITION = 
             "You have entered an already stricken position. Try again!\n";

@@ -60,25 +60,44 @@ class HelperTest {
     }
     
     @ParameterizedTest
-    @ValueSource(strings = {"a 1 h", "A 1 h", "a 1 H", "A 1 H",
-                            "j 1 h", "J 1 h", "j 1 H", "J 1 H",
-                            "a 10 h", "A 10 h", "a 10 H", "A 10 H",
-                            "j 10 h", "J 10 h", "j 10 H", "J 10 H",
-                            "a 5 h", "A 5 h", "a 5 H", "A 5 H",
-                            "a 1 v", "A 1 v", "a 1 V", "A 1 V",
-                            "j 1 v", "J 1 v", "j 1 V", "J 1 V",
-                            "a 10 v", "A 10 v", "a 10 V", "A 10 V",
-                            "j 10 v", "J 10 v", "j 10 V", "J 10 V",
-                            "a 5 v", "A 5 v", "a 5 V", "A 5 V",})
+    @ValueSource(strings = {"a1h",  "A1h",  "a1H",  "A1H",
+                            "j1h",  "J1h",  "j1H",  "J1H",
+                            "a10h", "A10h", "a10H", "A10H",
+                            "j10h", "J10h", "j10H", "J10H",
+                            "a5h",  "A5h",  "a5H",  "A5H",
+                            "a1v",  "A1v",  "a1V",  "A1V",
+                            "j1v",  "J1v",  "j1V",  "J1V",
+                            "a10v", "A10v", "a10V", "A10V",
+                            "j10v", "J10v", "j10V", "J10V",
+                            "a5v",  "A5v",  "a5V",  "A5V",})
     void testIsValidShipPositionInputReturnsTrueForValidInput(String input) {
-        assertTrue(helper.isValidShipPositionInput(input.split(" ")));
+        assertTrue(helper.isValidShipPositionInput(input));
     }
     
     @ParameterizedTest
-    @ValueSource(strings = {"abcd", "A B C D", "k 5 H", "K 5 H", 
-                            "a 15 H", "A -15 H", "A 0 H", "A 5 k", "A 5 K"})
+    @ValueSource(strings = {"abcd", "ABCD", "k5H", "K5H", 
+                            "a15H", "A-15H", "A0H", "A5k", "A5K"})
     void testIsValidShipPositionInputReturnsFalseForInvalidInput(String input) {
-        assertFalse(helper.isValidShipPositionInput(input.split(" ")));
+        assertFalse(helper.isValidShipPositionInput(input));
+    }
+    
+    @ParameterizedTest
+    @CsvSource({"a1h,  a, 1,  h", 
+                "a1H,  a, 1,  H", 
+                "a10h, a, 10, h", 
+                "a10H, a, 10, H", 
+                "A1h,  A, 1,  h", 
+                "A1H,  A, 1,  H", 
+                "A10h, A, 10, h", 
+                "A10H, A, 10, H"})
+    void testGetInputParts(String input,
+                           String expectedColumn, 
+                           String expectedRow, 
+                           String expectedDirection) {
+        String[] expectedInputPart = new String[]{expectedColumn, 
+                                                  expectedRow, 
+                                                  expectedDirection};
+        assertArrayEquals(expectedInputPart, helper.getInputParts(input));
     }
     
     // columnIndex, rowIndex, direction, shipSize

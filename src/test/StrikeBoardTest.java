@@ -97,7 +97,7 @@ class StrikeBoardTest {
         strikeBoard.addStrike(1, 0, MISS);
         
         assertEquals("*", strikeBoard.getSymbol(0,0));
-        assertEquals("o", strikeBoard.getSymbol(1,0));
-        assertEquals("~", strikeBoard.getSymbol(2,0));
+        assertEquals("o", strikeBoard.getSymbol(0,1));
+        assertEquals("~", strikeBoard.getSymbol(0,2));
     }
 }

@@ -14,23 +14,17 @@ public class Helper {
         return Character.toUpperCase(columnLetter) - 'A';
     }
     
-    public boolean isValidShipPositionInput(String[] input) {
-        return input.length == 3 
-                && isValidColumn(input[0])
-                && isValidRow(input[1])
-                && isValidDirection(input[2]);
+    public boolean isValidShipPositionInput(String input) {
+        return input.matches(Constants.VALID_INPUT_REGEX);
     }
     
-    private boolean isValidColumn(String column) {
-        return column.matches(Constants.VALID_COLUMN_REGEX);
-    }
-
-    private boolean isValidRow(String row) {
-        return row.matches(Constants.VALID_ROW_REGEX);
-    }
-
-    private boolean isValidDirection(String direction) {
-        return direction.matches(Constants.VALID_DIRECTION_REGEX);
+    public String[] getInputParts(String input) {
+        int length = input.length();
+        return new String[] {
+                input.substring(0, 1),
+                input.substring(1, length-1),
+                input.substring(length-1)
+        };
     }
     
     public boolean isShipFitInPosition(int startingColumn, 

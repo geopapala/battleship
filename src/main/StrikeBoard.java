@@ -22,7 +22,7 @@ public class StrikeBoard {
         }
     }
     
-    public String getSymbol(int column, int row) {
+    public String getSymbol(int row, int column) {
         return switch (board[row][column]) {
             case HIT -> "*";
             case MISS -> "o";

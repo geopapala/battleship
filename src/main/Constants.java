@@ -6,6 +6,9 @@ public final class Constants {
 
     public static final int BOARD_SIZE = 10;
     
+    public static final String PLAYER1_DEFAULT_NAME = "A";
+    public static final String PLAYER2_DEFAULT_NAME = "B";
+    
     public static final char HORIZONTAL = 'H';
     public static final char VERTICAL = 'V';
     
@@ -25,5 +28,6 @@ public final class Constants {
     
     public static final String VALID_COLUMN_REGEX = "[A-Ja-j]";
     public static final String VALID_ROW_REGEX = "^(10|[1-9])$";
-    public static final String VALID_DIRECTION_REGEX = "[HhVv]";
+    public static final String VALID_INPUT_REGEX = "^[A-Ja-j]([1-9]|10)[HhVv]$";
+    public static final String VALID_STRIKE_POSITION_REGEX = "^[A-Ja-j]([1-9]|10)$";
 }

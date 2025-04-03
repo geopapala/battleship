@@ -1,24 +1,26 @@
 package main;
 
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class ShipBoard {
-    private final int N = Constants.BOARD_SIZE;
+    private final int N;
     private final int[] ships = {5, 4, 3, 3, 2};
-    private int[] shipsHealth;
-    private int[][] board = new int[N][N];
-    private boolean[][] strickenBoardPositions = new boolean[N][N];
-    private boolean lastStrikeSankShip = false;
+    private final int[] shipsHealth;
+    private final int[][] board;
+    private final boolean[][] strickenBoardPositions;
+    private boolean lastStrikeSankShip;
     private Helper helper;
         
-    public ShipBoard() {
-        helper = new Helper();
+    public ShipBoard(int boardSize) {
+        this.N = boardSize;
         shipsHealth = ships.clone();
+        board = new int[N][N];
+        strickenBoardPositions = new boolean[N][N];
+        lastStrikeSankShip = false;
+        helper = new Helper();
     };
     
-    public void enterAllShipsManually(InputStream inputStream) {
-        Scanner scanner = new Scanner(inputStream);
+    public void enterAllShipsManually(Scanner scanner) {
         for (int shipId = 1; shipId <= ships.length; shipId++) {
             enterShipManually(shipId, scanner);
         }
@@ -36,9 +38,8 @@ public class ShipBoard {
         
         while (true) {
             String input = scanner.nextLine();
-            String[] inputParts = input.split(" ");
-            
-            if (helper.isValidShipPositionInput(inputParts)) {
+            if (helper.isValidShipPositionInput(input)) {
+                String[] inputParts = helper.getInputParts(input);
                 startingColumn = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
                 startingRow = Integer.parseInt(inputParts[1]) - 1;
                 direction = Character.toUpperCase(inputParts[2].charAt(0));

@@ -1,24 +1,22 @@
 package main;
 
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class HumanPlayer {
 
     private String name;
-    private ShipBoard shipBoard = new ShipBoard();
+    private ShipBoard shipBoard = new ShipBoard(Constants.BOARD_SIZE);
     private StrikeBoard strikeBoard = new StrikeBoard(Constants.BOARD_SIZE);
     private Helper helper = new Helper();
 
     public HumanPlayer() {}
     
-    public HumanPlayer(String name) {
+    public HumanPlayer(String name, Scanner scanner) {
         this.name = name;
-        shipBoard.enterAllShipsManually(System.in);
+        shipBoard.enterAllShipsManually(scanner);
     }
     
-    public int[] enterNextStrike(InputStream inputStream) {
-        Scanner scanner = new Scanner(inputStream);
+    public int[] enterNextStrike(Scanner scanner) {
         int [] nextStrikePosition = new int[2]; // column, row
         
         System.out.printf(Messages.NEXT_STRIKE_POSITION, name);
@@ -26,9 +24,8 @@ public class HumanPlayer {
         
         while (true) {
             String input = scanner.nextLine();
-            String[] inputParts = input.split(" ");
-            
-            if (isStrikePositionValid(inputParts)) {
+            if (isStrikePositionValid(input)) {
+                String[] inputParts = getInputParts(input);
                 int column = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
                 int row = Integer.parseInt(inputParts[1]) - 1;
                 
@@ -46,10 +43,15 @@ public class HumanPlayer {
         return nextStrikePosition;
     }
     
-    private boolean isStrikePositionValid(String[] input) {
-        return input.length == 2
-            && input[0].matches(Constants.VALID_COLUMN_REGEX)
-            && input[1].matches(Constants.VALID_ROW_REGEX);
+    private boolean isStrikePositionValid(String input) {
+        return input.matches(Constants.VALID_STRIKE_POSITION_REGEX);
+    }
+    
+    private String[] getInputParts(String input) {
+        return new String[] {
+                input.substring(0,1), 
+                input.substring(1)
+        };
     }
     
     private boolean isPositionAlreadyStricken(int column, int row) {
