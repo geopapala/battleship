@@ -26,8 +26,9 @@ public final class Constants {
         5, DESTROYER
     );
     
-    public static final String VALID_COLUMN_REGEX = "[A-Ja-j]";
-    public static final String VALID_ROW_REGEX = "^(10|[1-9])$";
+    //public static final String VALID_COLUMN_REGEX = "[A-Ja-j]";
+    //public static final String VALID_ROW_REGEX = "^(10|[1-9])$";
+    //public static final String VALID_DIRECTION_REGEX = "[HhVv]";
     public static final String VALID_INPUT_REGEX = "^[A-Ja-j]([1-9]|10)[HhVv]$";
     public static final String VALID_STRIKE_POSITION_REGEX = "^[A-Ja-j]([1-9]|10)$";
 }
