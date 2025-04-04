@@ -6,8 +6,8 @@ public final class Constants {
 
     public static final int BOARD_SIZE = 10;
     
-    public static final String PLAYER1_DEFAULT_NAME = "A";
-    public static final String PLAYER2_DEFAULT_NAME = "B";
+    public static final String PLAYER_ONE_DEFAULT_NAME = "A";
+    public static final String PLAYER_TWO_DEFAULT_NAME = "B";
     
     public static final char HORIZONTAL = 'H';
     public static final char VERTICAL = 'V';

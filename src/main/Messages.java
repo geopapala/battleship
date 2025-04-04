@@ -32,10 +32,10 @@ public class Messages {
           + "Welcome aboard, Captains! Before we embark on this epic naval battle, let me\n"
           + "have your names!\n";
     
-    public static final String PLAYER1_NAME_ASKING = 
+    public static final String PLAYER_ONE_NAME_ASKING = 
             "Captain of the 1st fleet, what is your name? ";
     
-    public static final String PLAYER2_NAME_ASKING = 
+    public static final String PLAYER_TWO_NAME_ASKING = 
             "And you, Captain of the 2nd fleet, what shall we call you? ";
     
     public static final String PLAYERS_WITH_SAME_NAME = 
@@ -83,4 +83,7 @@ public class Messages {
     public static final String HIT = "Yes! You have hit a ship!\n";
     
     public static final String MISS = "No! You have missed the target!\n";
+    
+    public static final String PLAYER_HEADER = "   PLAYER %s\n";
+    public static final String PLAYER_WINS = "%s WINS!\n";
 }

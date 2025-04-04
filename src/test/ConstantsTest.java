@@ -10,8 +10,8 @@ class ConstantsTest {
     @Test
     void test() {        
         assertEquals(10, Constants.BOARD_SIZE);
-        assertEquals("A", Constants.PLAYER1_DEFAULT_NAME);
-        assertEquals("B", Constants.PLAYER2_DEFAULT_NAME);
+        assertEquals("A", Constants.PLAYER_ONE_DEFAULT_NAME);
+        assertEquals("B", Constants.PLAYER_TWO_DEFAULT_NAME);
         assertEquals('H', Constants.HORIZONTAL);
         assertEquals('V', Constants.VERTICAL);
         assertEquals("Aircraft Carrier", Constants.AIRCRAFT_CARRIER);

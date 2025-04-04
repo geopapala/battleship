@@ -58,15 +58,12 @@ public class HumanPlayer {
         return strikeBoard.getBoard()[row][column] != 0;
     }
     
-    public void update(int column, int row, boolean isHit) {
-        
+    public void updateStrikeBoard(int column, int row, boolean isHit) {
         strikeBoard.addStrike(column, row, isHit);
-        
         if (isHit) {
             System.out.println(Messages.HIT);
             return;
         }
-        
         System.out.println(Messages.MISS);
     }
     
@@ -86,9 +83,8 @@ public class HumanPlayer {
         return this.name;
     }
     
-    public void printBoards() {
+    public void showBoards() {
         int N = Constants.BOARD_SIZE;
-
         System.out.println("         SHIP BOARD                    STRIKE BOARD");
         System.out.println("   --A-B-C-D-E-F-G-H-I-J--       --A-B-C-D-E-F-G-H-I-J--");
         for (int row = 0; row < N; row++) {
