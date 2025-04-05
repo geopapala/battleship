@@ -4,12 +4,14 @@ import java.util.Scanner;
 
 public class HumanPlayer {
 
-    private String name;
+    private final String name;
     private ShipBoard shipBoard = new ShipBoard(Constants.BOARD_SIZE);
     private StrikeBoard strikeBoard = new StrikeBoard(Constants.BOARD_SIZE);
     private Helper helper = new Helper();
 
-    public HumanPlayer() {}
+    public HumanPlayer() {
+        this.name = "Blank";
+    }
     
     public HumanPlayer(String name, Scanner scanner) {
         this.name = name;
@@ -79,8 +81,9 @@ public class HumanPlayer {
         return shipBoard.lastStrikeSankShip();
     }
     
+    @Override
     public String toString() {
-        return this.name;
+        return String.format("Player: %s", name);
     }
     
     public void showBoards() {

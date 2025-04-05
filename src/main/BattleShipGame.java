@@ -10,7 +10,7 @@ public class BattleShipGame {
         this.scanner = scanner;
     }
     
-    private void startHumanVsHuman() {
+    public void startHumanVsHuman() {
         boolean isGameOver = false;
         int roundCounter = 0;
 
@@ -34,7 +34,7 @@ public class BattleShipGame {
         }
     }
     
-    private String[] askPlayersForNames() {
+    public String[] askPlayersForNames() {
         System.out.println(Messages.NAMES_ASKING_INTRO);
         String name1 = askPlayerForName(Messages.PLAYER_ONE_NAME_ASKING, 
                                        Constants.PLAYER_ONE_DEFAULT_NAME);
@@ -51,7 +51,7 @@ public class BattleShipGame {
         return playerName.isEmpty() ? defaultName : playerName;
     }
     
-    private String askPlayerForName(String message, 
+    protected String askPlayerForName(String message, 
                                    String defaultName, 
                                    String existingName) {
         String playerName;
@@ -64,13 +64,13 @@ public class BattleShipGame {
         return playerName;
     }
     
-    private HumanPlayer initializeHumanPlayer(String name) {
+    protected HumanPlayer initializeHumanPlayer(String name) {
         System.out.printf(Messages.SHIP_PLACEMENT_INSTRUCTIONS, name);
         return new HumanPlayer(name, scanner);
     }
     
-    private boolean handlePlayerTurn(HumanPlayer attacker, 
-                             HumanPlayer defender) {
+    protected boolean handlePlayerTurn(HumanPlayer attacker, 
+                                       HumanPlayer defender) {
         showPlayerBoards(attacker);
         int[] nextStrike = askPlayerForNextStrike(attacker);
 
@@ -80,17 +80,17 @@ public class BattleShipGame {
         return checkGameOver(attacker, defender);
     }
     
-    private void showPlayerBoards(HumanPlayer player) {
-        System.out.printf(Messages.PLAYER_HEADER, player);
+    protected void showPlayerBoards(HumanPlayer player) {
+        System.out.println(player);
         System.out.print(Messages.SEPARATOR);
         player.showBoards();
     }
     
-    private int[] askPlayerForNextStrike(HumanPlayer player) {
+    protected int[] askPlayerForNextStrike(HumanPlayer player) {
         return player.enterNextStrike(scanner);
     }
     
-    private boolean checkGameOver(HumanPlayer attacker, HumanPlayer defender) {
+    protected boolean checkGameOver(HumanPlayer attacker, HumanPlayer defender) {
         if (defender.allShipsSank()) {
             System.out.printf(Messages.PLAYER_WINS, attacker);
             return true;

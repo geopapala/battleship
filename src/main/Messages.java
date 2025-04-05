@@ -84,6 +84,5 @@ public class Messages {
     
     public static final String MISS = "No! You have missed the target!\n";
     
-    public static final String PLAYER_HEADER = "   PLAYER %s\n";
     public static final String PLAYER_WINS = "%s WINS!\n";
 }
