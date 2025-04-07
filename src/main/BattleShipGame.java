@@ -1,15 +1,11 @@
 package main;
 
-import java.util.Scanner;
-
 public class BattleShipGame {
     
-    private final Scanner scanner;
     private InputHandler inputHandler;
     
-    public BattleShipGame(Scanner scanner) {
-        this.scanner = scanner;
-        this.inputHandler = new InputHandler(scanner);
+    public BattleShipGame() {
+        this.inputHandler = new InputHandler(System.in);
     }
     
     public void startHumanVsHuman() {
@@ -34,11 +30,12 @@ public class BattleShipGame {
                 if (isGameOver) break;
             }
         }
+        inputHandler.close();
     }
     
     protected HumanPlayer initializeHumanPlayer(String name) {
         System.out.printf(Messages.SHIP_PLACEMENT_INSTRUCTIONS, name);
-        return new HumanPlayer(name, scanner);
+        return new HumanPlayer(name, inputHandler);
     }
     
     protected boolean handlePlayerTurn(HumanPlayer attacker, 
@@ -59,7 +56,7 @@ public class BattleShipGame {
     }
     
     protected int[] askPlayerForNextStrike(HumanPlayer player) {
-        return player.enterNextStrike(scanner);
+        return player.enterNextStrike(inputHandler);
     }
     
     protected boolean checkGameOver(HumanPlayer attacker, HumanPlayer defender) {
@@ -71,15 +68,9 @@ public class BattleShipGame {
     }
     
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        try {
-            BattleShipGame game = new BattleShipGame(scanner);
-            System.out.println(Messages.WELCOME_TO_BATTLESHIP);
-            System.out.println(Messages.INSTRUCTIONS);
-            game.startHumanVsHuman();
-        } finally {
-            scanner.close();
-        }
-        
+        BattleShipGame game = new BattleShipGame();
+        System.out.println(Messages.WELCOME_TO_BATTLESHIP);
+        System.out.println(Messages.INSTRUCTIONS);
+        game.startHumanVsHuman();
     }
 }

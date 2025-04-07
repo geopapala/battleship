@@ -10,23 +10,6 @@ public class Helper {
         return resolveShipType(id).charAt(0);
     }
     
-    public int mapColumnLetterToIndex(char columnLetter) {
-        return Character.toUpperCase(columnLetter) - 'A';
-    }
-    
-    public boolean isValidShipPositionInput(String input) {
-        return input.matches(Constants.VALID_INPUT_REGEX);
-    }
-    
-    public String[] getInputParts(String input) {
-        int length = input.length();
-        return new String[] {
-                input.substring(0, 1),
-                input.substring(1, length-1),
-                input.substring(length-1)
-        };
-    }
-    
     public boolean isShipFitInPosition(int startingColumn, 
                                        int startingRow, 
                                        char direction, 

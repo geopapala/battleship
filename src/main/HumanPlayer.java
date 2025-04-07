@@ -1,59 +1,27 @@
 package main;
 
-import java.util.Scanner;
-
 public class HumanPlayer {
 
     private final String name;
     private ShipBoard shipBoard = new ShipBoard(Constants.BOARD_SIZE);
     private StrikeBoard strikeBoard = new StrikeBoard(Constants.BOARD_SIZE);
-    private Helper helper = new Helper();
-
-    public HumanPlayer() {
-        this.name = "Blank";
-    }
     
-    public HumanPlayer(String name, Scanner scanner) {
+    public HumanPlayer(String name, InputHandler inputHandler) {
         this.name = name;
-        shipBoard.enterAllShipsManually(scanner);
+        shipBoard.enterAllShipsManually(inputHandler);
     }
     
-    public int[] enterNextStrike(Scanner scanner) {
-        int [] nextStrikePosition = new int[2]; // column, row
-        
+    public int[] enterNextStrike(InputHandler inputHandler) {
         System.out.printf(Messages.NEXT_STRIKE_POSITION, name);
         System.out.println();
-        
         while (true) {
-            String input = scanner.nextLine();
-            if (isStrikePositionValid(input)) {
-                String[] inputParts = getInputParts(input);
-                int column = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
-                int row = Integer.parseInt(inputParts[1]) - 1;
-                
-                if (isPositionAlreadyStricken(column, row)) {
-                    System.out.println(Messages.ALREADY_STRICKEN_POSITION);
-                    continue;
-                }
-                nextStrikePosition[0] = column;
-                nextStrikePosition[1] = row;
-                
-                break;
+            int[] nextStrikePosition = inputHandler.askPlayerForNextStrikePosition();
+            if (isPositionAlreadyStricken(nextStrikePosition[0], nextStrikePosition[1])) {
+                System.out.println(Messages.ALREADY_STRICKEN_POSITION);
+                continue;
             }
-            System.out.println(Messages.INVALID_STRIKE_POSITION);
+            return nextStrikePosition;
         }
-        return nextStrikePosition;
-    }
-    
-    private boolean isStrikePositionValid(String input) {
-        return input.matches(Constants.VALID_STRIKE_POSITION_REGEX);
-    }
-    
-    private String[] getInputParts(String input) {
-        return new String[] {
-                input.substring(0,1), 
-                input.substring(1)
-        };
     }
     
     private boolean isPositionAlreadyStricken(int column, int row) {

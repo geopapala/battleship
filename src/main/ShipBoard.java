@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Scanner;
-
 public class ShipBoard {
     private final int N;
     private final int[] ships = {5, 4, 3, 3, 2};
@@ -20,13 +18,13 @@ public class ShipBoard {
         helper = new Helper();
     };
     
-    public void enterAllShipsManually(Scanner scanner) {
+    public void enterAllShipsManually(InputHandler inputHandler) {
         for (int shipId = 1; shipId <= ships.length; shipId++) {
-            enterShipManually(shipId, scanner);
+            enterShipManually(shipId, inputHandler);
         }
     }
     
-    private void enterShipManually(int id, Scanner scanner) {
+    private void enterShipManually(int id, InputHandler inputHandler) {
         int startingColumn;
         int startingRow;
         char direction;
@@ -37,27 +35,24 @@ public class ShipBoard {
         System.out.println();
         
         while (true) {
-            String input = scanner.nextLine();
-            if (helper.isValidShipPositionInput(input)) {
-                String[] inputParts = helper.getInputParts(input);
-                startingColumn = helper.mapColumnLetterToIndex(inputParts[0].charAt(0));
-                startingRow = Integer.parseInt(inputParts[1]) - 1;
-                direction = Character.toUpperCase(inputParts[2].charAt(0));
-                
-                if (!helper.isShipFitInPosition(startingColumn, startingRow, direction, shipSize)) {
-                    System.out.println(Messages.SHIP_DONT_FIT);
-                    continue;
-                }
-                
-                if (helper.isShipCollidingWithOther(startingColumn, startingRow, direction, shipSize, board)) {
-                    System.out.println(Messages.SHIP_COLLIDING_WITH_OTHER);
-                    continue;
-                }
-                
-                helper.placeShip(startingColumn, startingRow, direction, id, shipSize, board);
-                break;
+            
+            int[] shipPlacement = inputHandler.askPlayerForShipPlacement();
+            startingColumn = shipPlacement[0];
+            startingRow = shipPlacement[1];
+            direction = (char) shipPlacement[2];
+        
+            if (!helper.isShipFitInPosition(startingColumn, startingRow, direction, shipSize)) {
+                System.out.println(Messages.SHIP_DONT_FIT);
+                continue;
             }
-            System.out.println(Messages.INVALID_SHIP_PLACEMENT);
+            
+            if (helper.isShipCollidingWithOther(startingColumn, startingRow, direction, shipSize, board)) {
+                System.out.println(Messages.SHIP_COLLIDING_WITH_OTHER);
+                continue;
+            }
+            
+            helper.placeShip(startingColumn, startingRow, direction, id, shipSize, board);
+            break;
         }
         printBoard();
     }
