@@ -23,7 +23,7 @@ public class Messages {
           + "2. Players alternate turns striking coordinates (like 'C4') to guess where\n"
           + "   the opponent's ships are.\n"
           + "3. The opponent announces whether the guess was a 'hit' (a part of a ship) or\n"
-          + "   a 'miss' (empty water). Your guesses are marked on your strike board."
+          + "   a 'miss' (empty water). Your guesses are marked on your strike board.\n"
           + "4. Once all the coordinates of a ship are hit, that ship is 'sunk'. Keep going\n"
           + "   until all ships of the enemy are sunk.\n"
           + "5. The first player to sink all of their opponent’s ships wins the game!\n";

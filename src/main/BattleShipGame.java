@@ -4,8 +4,8 @@ public class BattleShipGame {
     
     private InputHandler inputHandler;
     
-    public BattleShipGame() {
-        this.inputHandler = new InputHandler(System.in);
+    public BattleShipGame(InputHandler inputHandler) {
+        this.inputHandler = inputHandler;
     }
     
     public void startHumanVsHuman() {
@@ -16,11 +16,9 @@ public class BattleShipGame {
 
         HumanPlayer playerOne = initializeHumanPlayer(names[0]);
         HumanPlayer playerTwo = initializeHumanPlayer(names[1]);
-
-        System.out.println(Messages.BATTLE_BEGIN);
-
         HumanPlayer[] players = {playerOne, playerTwo};
 
+        System.out.println(Messages.BATTLE_BEGIN);
         while (!isGameOver) {
             System.out.printf(Messages.ROUND_SEPARATOR, ++roundCounter);
             // Alternate turns between players
@@ -30,12 +28,13 @@ public class BattleShipGame {
                 if (isGameOver) break;
             }
         }
-        inputHandler.close();
     }
     
     protected HumanPlayer initializeHumanPlayer(String name) {
         System.out.printf(Messages.SHIP_PLACEMENT_INSTRUCTIONS, name);
-        return new HumanPlayer(name, inputHandler);
+        HumanPlayer player = new HumanPlayer(name);
+        player.enterAllShipsManually(inputHandler);
+        return player;
     }
     
     protected boolean handlePlayerTurn(HumanPlayer attacker, 
@@ -68,9 +67,15 @@ public class BattleShipGame {
     }
     
     public static void main(String[] args) {
-        BattleShipGame game = new BattleShipGame();
-        System.out.println(Messages.WELCOME_TO_BATTLESHIP);
-        System.out.println(Messages.INSTRUCTIONS);
-        game.startHumanVsHuman();
+        InputHandler inputHandler = new InputHandler(System.in);
+        try {
+            BattleShipGame game = new BattleShipGame(inputHandler);
+            System.out.println(Messages.WELCOME_TO_BATTLESHIP);
+            System.out.println(Messages.INSTRUCTIONS);
+            game.startHumanVsHuman();
+        } finally {
+            inputHandler.close();
+        }
+        
     }
 }

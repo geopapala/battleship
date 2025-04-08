@@ -3,11 +3,16 @@ package main;
 public class HumanPlayer {
 
     private final String name;
-    private ShipBoard shipBoard = new ShipBoard(Constants.BOARD_SIZE);
-    private StrikeBoard strikeBoard = new StrikeBoard(Constants.BOARD_SIZE);
+    private ShipBoard shipBoard;
+    private StrikeBoard strikeBoard;
     
-    public HumanPlayer(String name, InputHandler inputHandler) {
+    public HumanPlayer(String name) {
         this.name = name;
+        shipBoard = new ShipBoard(Constants.BOARD_SIZE);
+        strikeBoard = new StrikeBoard(Constants.BOARD_SIZE);
+    }
+    
+    public void enterAllShipsManually(InputHandler inputHandler) {
         shipBoard.enterAllShipsManually(inputHandler);
     }
     

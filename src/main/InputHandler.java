@@ -77,7 +77,7 @@ public class InputHandler {
                 return parseShipPlacement(input);
             }
             System.out.println(Messages.INVALID_SHIP_PLACEMENT);
-        } while (true); 
+        } while (true);
     }
     
     private int[] parseShipPlacement(String input) {
